@@ -16,3 +16,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - The tests and the documentation are projects of the package's workspace, resolved together with it, which needs Julia 1.12 or later.
 - CI, after BioJuliaTemplate.jl: unit tests on Linux, macOS and Windows with coverage, documentation, Runic formatting, TagBot and Dependabot.
 - Documentation, with a reference of every builder.
+- Gitflow: checks that pull requests into `master` come from `release/*` or `hotfix/*` branches.

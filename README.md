@@ -62,6 +62,13 @@ We appreciate contributions from users including reporting bugs, fixing issues, 
 See the [contributing files](https://github.com/BioJulia/Contributing) for detailed contributor and maintainer guidelines and the code of conduct.
 
 This project follows [semantic versioning](https://semver.org), and records notable changes in [CHANGELOG.md](CHANGELOG.md).
+Development happens on the [develop branch](https://github.com/BioJulia/BEDTools.jl/tree/develop), following the [git-flow branching model](https://nvie.com/posts/a-successful-git-branching-model/):
+- features branch from `develop`, and merge back into it by pull request;
+- hotfixes branch from `master`, and merge back into it by pull request;
+- releases and hotfixes branch as `release/vX.Y.Z` and `hotfix/vX.Y.Z`, set that version in `Project.toml`, move the unreleased entries of `CHANGELOG.md` into a `## [X.Y.Z]` section, and merge into `master` by pull request, and then back into `develop`.
+
+On a pull request into `master`, the Gitflow workflow checks that it comes from a `release/*` or `hotfix/*` branch.
+A ruleset on `master` requires pull requests and this check.
 
 ## Testing
 

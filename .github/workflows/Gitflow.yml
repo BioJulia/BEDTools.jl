@@ -1,0 +1,31 @@
+# Gitflow: master takes merges only from release and hotfix branches; features go to develop.
+# On a pull request into master, the Source branch check: it comes from a release/* or hotfix/* branch.
+# It enforces the rule once a ruleset on master requires pull requests and requires this check; see the README.
+name: Gitflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions: {}
+
+jobs:
+  source-branch:
+    name: Source branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that the pull request comes from a release or hotfix branch
+        # The branch name is passed through the environment, never into the script, so that a crafted name can't run commands.
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$HEAD_REF" in
+            release/* | hotfix/*)
+              echo "master takes the merge of $HEAD_REF, a release or hotfix branch."
+              ;;
+            *)
+              echo "::error title=Gitflow::master takes merges only from release/* and hotfix/* branches, as gitflow does, not from $HEAD_REF; merge features into develop."
+              exit 1
+              ;;
+          esac
