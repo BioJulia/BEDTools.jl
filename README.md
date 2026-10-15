@@ -56,6 +56,13 @@ The builders and conveniences are public but not exported, since `sort`, `inters
 The builders of `BEDTools.Bindings` are generated from the help of the `bedtools` of BEDTools_jll, with the corrections of `gen/overrides.jl`; [`gen/README.md`](gen/README.md) describes how to regenerate them and how to add a convenience.
 They are generated from BEDTools 2.31.1, `BEDTools.Bindings.GENERATED_VERSION`, and BEDTools.jl's compat admits only that version of BEDTools_jll, `~2.31.1`.
 
+## Contributing
+
+We appreciate contributions from users including reporting bugs, fixing issues, improving performance and adding new features.
+See the [contributing files](https://github.com/BioJulia/Contributing) for detailed contributor and maintainer guidelines and the code of conduct.
+
+This project follows [semantic versioning](https://semver.org), and records notable changes in [CHANGELOG.md](CHANGELOG.md).
+
 ## Testing
 
 The tests check the command and the thin layer over it, on a few records with results worked out by hand:
