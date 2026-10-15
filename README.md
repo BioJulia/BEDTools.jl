@@ -67,8 +67,15 @@ Development happens on the [develop branch](https://github.com/BioJulia/BEDTools
 - hotfixes branch from `master`, and merge back into it by pull request;
 - releases and hotfixes branch as `release/vX.Y.Z` and `hotfix/vX.Y.Z`, set that version in `Project.toml`, move the unreleased entries of `CHANGELOG.md` into a `## [X.Y.Z]` section, and merge into `master` by pull request, and then back into `develop`.
 
-On a pull request into `master`, the Gitflow workflow checks that it comes from a `release/*` or `hotfix/*` branch.
-A ruleset on `master` requires pull requests and this check.
+On a pull request into `master`, the Gitflow workflow checks:
+- that it comes from a `release/*` or `hotfix/*` branch;
+- that its version is that of the branch's name, a single step up from `master`'s, not yet tagged, and the next patch for a hotfix;
+- that the changelog has a section for that version, with entries, and nothing left unreleased;
+- for breaking changes: whether the public API of `master`, its names, methods, keywords and fields, is still provided, whether `master`'s tests still pass, and whether the compat bounds of Julia and of the dependencies still admit every version that `master`'s did, since a narrowed bound drops versions that users may have.
+  A breaking change needs the next major version, or the next minor version below 1.0, and a `### Breaking` subsection in the changelog; a hotfix can't be breaking.
+
+A ruleset on `master` requires pull requests and these checks.
+The checks are `.github/scripts/check_release.jl`, which runs locally too, such as `HEAD_REF=release/v0.2.0 BASE_REF=master julia .github/scripts/check_release.jl breaking`.
 
 ## Testing
 

@@ -1,6 +1,10 @@
 # Gitflow: master takes merges only from release and hotfix branches; features go to develop.
-# On a pull request into master, the Source branch check: it comes from a release/* or hotfix/* branch.
-# It enforces the rule once a ruleset on master requires pull requests and requires this check; see the README.
+# On a pull request into master, four checks:
+# - Source branch: it comes from a release/* or hotfix/* branch;
+# - Version: Project.toml's version is that of the branch's name, a single step up from master's, untagged, and the next patch for a hotfix;
+# - Changelog: CHANGELOG.md has a section for that version, with entries, and nothing left unreleased;
+# - Breaking changes: if master's public API or master's tests no longer hold, or a compat bound no longer admits every version that master's did, the version is a breaking one, and the changelog says so under `### Breaking`.
+# They enforce the rules once a ruleset on master requires pull requests and requires these checks; see the README.
 name: Gitflow
 
 on:
@@ -29,3 +33,60 @@ jobs:
               exit 1
               ;;
           esac
+
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      # The history and tags, for master's version and the tags of earlier releases.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: '1'
+      - name: Check the version
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: origin/${{ github.base_ref }}
+        run: julia .github/scripts/check_release.jl version
+
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: '1'
+      - name: Check the changelog
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: origin/${{ github.base_ref }}
+        run: julia .github/scripts/check_release.jl changelog
+
+  breaking:
+    name: Breaking changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: '1'
+      - uses: julia-actions/cache@v3
+      # Compares master's public API and compat bounds with the branch's, runs master's tests against the branch, and writes what it finds to the job summary.
+      - name: Check for breaking changes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: origin/${{ github.base_ref }}
+        run: julia .github/scripts/check_release.jl breaking
