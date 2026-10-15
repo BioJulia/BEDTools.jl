@@ -80,13 +80,36 @@ else
             # It reports each file it writes, with its bases and records; the size algorithm may reorder the records.
             @test BEDTools.lines(Bindings.split(input = a, number = 1, prefix = prefix)) == [prefix * ".00001.bed\t120\t3"]
             @test Set(readlines(prefix * ".00001.bed")) == Set(readlines(a))
-            # A builder runs with `lines`, as the command does.
-            @test BEDTools.lines(Bindings.sort(i = a)) == BEDTools.lines(BEDTools.command("sort", "-i", a))
+            # A builder runs with `lines`, as its convenience does.
+            @test BEDTools.lines(Bindings.sort(i = a)) == BEDTools.sort(a)
         end
 
-        @testset "lines" begin
-            @test BEDTools.lines(BEDTools.command("sort", "-i", a)) == ["chr1\t10\t20\ta", "chr1\t100\t200\tb", "chr2\t50\t60\tc"]
-            @test BEDTools.lines(BEDTools.command("intersect", "-a", a, "-b", b, "-wa", "-wb")) == ["chr1\t10\t20\ta\tchr1\t15\t30\tx"]
+        @testset "sort" begin
+            @test BEDTools.sort(a) == ["chr1\t10\t20\ta", "chr1\t100\t200\tb", "chr2\t50\t60\tc"]
+            @test BEDTools.sort(a) == BEDTools.lines(BEDTools.command("sort", "-i", a))
+            # A flag passes through: `-sizeD` sorts by size, the largest first.
+            @test first(BEDTools.sort(a; sizeD = true)) == "chr1\t100\t200\tb"
+        end
+
+        @testset "intersect" begin
+            @test BEDTools.intersect(a, b; wa = true, wb = true) == ["chr1\t10\t20\ta\tchr1\t15\t30\tx"]
+            @test BEDTools.intersect(a, b; wa = true, wb = true) == BEDTools.lines(BEDTools.command("intersect", "-a", a, "-b", b, "-wa", "-wb"))
+            @test sort(BEDTools.intersect(a, b; v = true)) == ["chr1\t100\t200\tb", "chr2\t50\t60\tc"]
+            @test BEDTools.intersect(a, b) == ["chr1\t15\t20\ta"]
+        end
+
+        @testset "bed12tobed6" begin
+            # Two blocks, of 10 and 20 bases, at offsets 0 and 80 from the start.
+            bed12 = write_lines(directory, "blocks.bed", ["chr1\t100\t200\tgene\t0\t+\t100\t200\t0\t2\t10,20,\t0,80,"])
+            @test BEDTools.bed12tobed6(bed12) == ["chr1\t100\t110\tgene\t0\t+", "chr1\t180\t200\tgene\t0\t+"]
+        end
+
+        @testset "genomecov" begin
+            # Two overlapping intervals on chr1 give a depth of 2 where they overlap, as a BedGraph.
+            intervals = write_lines(directory, "overlapping.bed", ["chr1\t10\t20\ta", "chr1\t15\t30\tb"])
+            genome = write_lines(directory, "genome.txt", ["chr1\t100", "chr2\t100"])
+            @test BEDTools.genomecov(intervals, genome; bg = true) == ["chr1\t10\t15\t1", "chr1\t15\t20\t2", "chr1\t20\t30\t1"]
+            @test BEDTools.genomecov(intervals, genome; bg = true) == BEDTools.lines(BEDTools.command("genomecov", "-i", intervals, "-g", genome, "-bg"))
         end
 
         @testset "generated" begin
@@ -95,11 +118,13 @@ else
             documentation = string(@doc BEDTools.Bindings.intersect)
             @test occursin("It needs `a` and `b`", documentation)
             @test occursin("- `wa`: Write the original entry in A for each overlap.", documentation)
+            # The conveniences check their options through the builders.
+            @test_throws ArgumentError BEDTools.intersect(a, b; wa = true, nosuchoption = 1)
         end
 
         @testset "failures" begin
             exception = try
-                BEDTools.lines(BEDTools.command("sort", "-i", joinpath(directory, "missing.bed"), "-header"))
+                BEDTools.sort(joinpath(directory, "missing.bed"); header = true)
             catch exception
                 exception
             end
