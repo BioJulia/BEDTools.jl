@@ -1,0 +1,6 @@
+[deps]
+BEDTools = "36b681cb-7f1b-4b01-910b-2d46d07e0378"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+
+[compat]
+Documenter = "1"
