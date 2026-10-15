@@ -13,4 +13,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - A generator of the builders, `gen/generate.jl`, which writes them from the help of BEDTools_jll's `bedtools`, with their docstrings, options and required options, and the corrections of `gen/overrides.jl`.
 - BEDTools_jll's compat is `~2.31.1`, the version the builders are generated from, `BEDTools.Bindings.GENERATED_VERSION`; the generator fails if the compat admits another minor version.
 - `BEDTools.version` and `BEDTools.is_available`.
-- The tests are a project of the package's workspace, resolved together with it, which needs Julia 1.12 or later.
+- The tests and the documentation are projects of the package's workspace, resolved together with it, which needs Julia 1.12 or later.
+- Documentation, with a reference of every builder.

@@ -1,5 +1,10 @@
 # BEDTools.jl
 
+[![Latest Release](https://img.shields.io/github/release/BioJulia/BEDTools.jl.svg)](https://github.com/BioJulia/BEDTools.jl/releases/latest)
+[![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/BEDTools.jl/blob/master/LICENSE)
+[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://biojulia.github.io/BEDTools.jl/stable)
+[![Latest documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://biojulia.github.io/BEDTools.jl/dev)
+
 Julia bindings to [BEDTools](https://github.com/arq5x/bedtools2), the suite of tools for genomic intervals, from [BEDTools_jll](https://github.com/JuliaBinaryWrappers/BEDTools_jll.jl).
 
 BEDTools is a program rather than a library, so the bindings are its commands, in two layers:
