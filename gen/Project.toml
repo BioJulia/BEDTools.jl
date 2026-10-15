@@ -1,0 +1,9 @@
+[deps]
+BEDTools_jll = "a4d9fe64-ac7a-59f8-9e70-26745686a4e7"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Runic = "62bfec6d-59d7-401d-8490-b29ee721c001"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[compat]
+BEDTools_jll = "~2.31.1"
+julia = "1.11"

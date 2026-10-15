@@ -4,18 +4,21 @@
 Julia bindings to [BEDTools](https://github.com/arq5x/bedtools2), the suite of tools for genomic intervals, from BEDTools_jll.
 
 BEDTools is a program rather than a library, so the bindings are its commands.
-[`BEDTools.command`](@ref) gives the `bedtools` command with its arguments; [`BEDTools.lines`](@ref) runs a command and returns its output.
+[`BEDTools.Bindings`](@ref) has a builder for the command of every subcommand, generated from its help, which checks its options; [`BEDTools.lines`](@ref) runs a command and returns its output.
 Its main use is as a reference implementation, to validate Julia packages against BEDTools.
 """
 module BEDTools
 
 # This module is written by hand: running commands and reporting their failures.
+# Bindings.jl holds the command builders, which gen/generate.jl generates from the help of BEDTools_jll's `bedtools`.
 
 import BEDTools_jll
 
 export BEDToolsError
 
-public command, lines, version, is_available
+public Bindings, command, lines, version, is_available
+
+include("Bindings.jl")
 
 """
     BEDToolsError(arguments, message)
@@ -38,17 +41,17 @@ end
     BEDTools.command(arguments...)::Cmd
 
 The `bedtools` command of BEDTools_jll with `arguments`, as on the command line, such as `BEDTools.command("sort", "-i", path)`.
-It checks nothing.
+It checks nothing, for what the help of a subcommand doesn't describe; the builders of [`BEDTools.Bindings`](@ref) check their options.
 """
 command(arguments...) = `$(BEDTools_jll.bedtools()) $(String[string(argument) for argument in arguments])`
 
 """
     BEDTools.lines(command::Cmd)::Vector{String}
 
-Run `command`, such as one of [`BEDTools.command`](@ref), and return the lines that it writes to standard output.
+Run `command`, such as one of [`BEDTools.Bindings`](@ref) or [`BEDTools.command`](@ref), and return the lines that it writes to standard output.
 If it fails, a [`BEDToolsError`](@ref) gives its arguments and what it wrote to standard error.
 
-So `BEDTools.lines(BEDTools.command("merge", "-i", "features.bed", "-d", 10))` runs `bedtools merge -i features.bed -d 10`.
+So `BEDTools.lines(BEDTools.Bindings.merge(i = "features.bed", d = 10))` runs `bedtools merge -i features.bed -d 10`.
 """
 function lines(command::Cmd)
     output = IOBuffer()
