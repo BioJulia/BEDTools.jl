@@ -1,0 +1,15 @@
+# Dependabot keeps the compat bounds of the Julia projects and the versions of the GitHub Actions current, with weekly pull requests.
+version: 2
+updates:
+  # The package and the projects of its workspace, the tests and the documentation; the generator's environment, gen/, follows BEDTools_jll by hand, since its version must match the package's.
+  - package-ecosystem: "julia"
+    directories:
+      - "/"
+      - "/test"
+      - "/docs"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

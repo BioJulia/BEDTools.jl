@@ -4,6 +4,8 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/BEDTools.jl/blob/master/LICENSE)
 [![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://biojulia.github.io/BEDTools.jl/stable)
 [![Latest documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://biojulia.github.io/BEDTools.jl/dev)
+[![Unit Tests](https://github.com/BioJulia/BEDTools.jl/actions/workflows/UnitTests.yml/badge.svg)](https://github.com/BioJulia/BEDTools.jl/actions/workflows/UnitTests.yml)
+[![codecov](https://codecov.io/gh/BioJulia/BEDTools.jl/branch/develop/graph/badge.svg)](https://codecov.io/gh/BioJulia/BEDTools.jl)
 
 Julia bindings to [BEDTools](https://github.com/arq5x/bedtools2), the suite of tools for genomic intervals, from [BEDTools_jll](https://github.com/JuliaBinaryWrappers/BEDTools_jll.jl).
 
