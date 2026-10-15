@@ -10,7 +10,7 @@ BEDTools is a program rather than a library, so its help takes the place of the 
 
 The package has two layers:
 - `src/Bindings.jl`, the module `BEDTools.Bindings`: the generated builders, and `build`, written by hand, which checks a command's options and turns them into its arguments;
-- `src/BEDTools.jl`, written by hand: `lines`, which runs a command and reports its failure.
+- `src/BEDTools.jl`, written by hand: `lines`, which runs a command and reports its failure, and the conveniences of the subcommands that are used most, `sort`, `intersect`, `bed12tobed6` and `genomecov`.
 
 ## Running
 
@@ -46,6 +46,14 @@ Where the help of a subcommand misleads the generator, `overrides.jl` corrects i
 const OVERRIDES = Dict{Symbol, NamedTuple}(
     :genomecov => (required = (:g,),),
 )
+```
+
+## Conveniences
+
+A convenience is written by hand in `src/BEDTools.jl`, through its builder, which checks its options:
+
+```julia
+merge(path::AbstractString; options...) = lines(Bindings.merge(; i = path, options...))
 ```
 
 ## Updating BEDTools
