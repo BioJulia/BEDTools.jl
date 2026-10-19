@@ -1,0 +1,8 @@
+[deps]
+BEDTools = "36b681cb-7f1b-4b01-910b-2d46d07e0378"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+# Compat bounds for the packages that only the tests use.
+# The bounds of BEDTools.jl's dependencies are in its own Project.toml, which the workspace resolves together with this one.
+[compat]
+Test = "1"
