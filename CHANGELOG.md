@@ -4,7 +4,9 @@ All notable changes to this project are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## UNRELEASED
+## [Unreleased]
+
+## [0.1.0] - 2026-10-20
 
 - `BEDTools.Bindings`, a builder for the command of every subcommand of BEDTools, which takes its options as keywords, in each of their spellings, such as `i` and `input` for `-i|--input`, checks them against those that its help lists and that its required options are given, and returns the `Cmd`; every builder also takes the general parameters of BEDTools, such as `--cram-ref`, which come before the subcommand.
 - `BEDTools.lines(command)`, which runs a command, returns the lines of its output, and reports its failure as a `BEDToolsError`.
@@ -18,3 +20,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Documentation, with a reference of every builder.
 - Gitflow, with the checks of BioJulia/Workflows: checks that pull requests into `master` come from `release/*` branches of `develop` or `hotfix/*` branches of `master`, take the next version, describe it in the changelog with its comparison links, and, if they break the public API or `master`'s tests, or narrow a compat bound, take a breaking version and say so in the changelog; and that pull requests into `develop` don't come from `release/*` or `hotfix/*` branches, and add a changelog entry.
 - Back-merge: once a release or hotfix merges into `master`, the workflow of BioJulia/Workflows opens the pull request that brings `master` back into `develop`, from a `back-merge/vX.Y.Z` branch.
+
+[Unreleased]: https://github.com/BioJulia/BEDTools.jl/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/BioJulia/BEDTools.jl/releases/tag/v0.1.0
