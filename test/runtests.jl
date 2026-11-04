@@ -117,7 +117,8 @@ else
             @test BEDTools.version() == BEDTools.Bindings.GENERATED_VERSION
             documentation = string(@doc BEDTools.Bindings.intersect)
             @test occursin("It needs `a` and `b`", documentation)
-            @test occursin("- `wa`: Write the original entry in A for each overlap.", documentation)
+            # Julia 1.10 renders a list item as `  * `, and later versions as `- `, so the test matches the option and its description.
+            @test occursin("`wa`: Write the original entry in A for each overlap.", documentation)
             # The conveniences check their options through the builders.
             @test_throws ArgumentError BEDTools.intersect(a, b; wa = true, nosuchoption = 1)
         end

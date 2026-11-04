@@ -14,10 +14,13 @@ module BEDTools
 # Bindings.jl holds the command builders, which gen/generate.jl generates from the help of BEDTools_jll's `bedtools`.
 
 import BEDTools_jll
+using Compat: @compat
 
 export BEDToolsError
 
-public Bindings, command, lines, sort, intersect, bed12tobed6, genomecov, version, is_available
+# `public` is a keyword from Julia 1.11: `@compat` declares the names public there, and does nothing on 1.10, where they're public by their documentation alone.
+# Once the oldest Julia that the package supports is 1.11 or later, drop `@compat` here, and Compat if nothing else uses it.
+@compat public Bindings, command, lines, sort, intersect, bed12tobed6, genomecov, version, is_available
 
 include("Bindings.jl")
 
