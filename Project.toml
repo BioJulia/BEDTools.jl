@@ -5,11 +5,14 @@ authors = ["Ciarán O'Mara <Ciaran.OMara@utas.edu.au>"]
 
 [deps]
 BEDTools_jll = "a4d9fe64-ac7a-59f8-9e70-26745686a4e7"
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
 
 [compat]
 BEDTools_jll = "~2.31.1"
-julia = "1.12"
+Compat = "3.47, 4.10"
+julia = "1.10"
 
-# The tests and the documentation are projects of this workspace, which resolves them together with the package, in one manifest.
+# The tests and the documentation are projects of this workspace, which resolves them together with the package, in one manifest, from Julia 1.12.
+# Before 1.12, `Pkg.test` uses test/Project.toml alone.
 [workspace]
 projects = ["test", "docs"]

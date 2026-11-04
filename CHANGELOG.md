@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Changed
+
+- Support for Julia 1.10, the long-term support release, where the names that `public` declares from Julia 1.11, through Compat's `@compat`, are public by their documentation alone; the tests run on 1.10 and the latest release, on Linux, macOS and Windows.
+
 ## [0.1.0] - 2026-10-20
 
 - `BEDTools.Bindings`, a builder for the command of every subcommand of BEDTools, which takes its options as keywords, in each of their spellings, such as `i` and `input` for `-i|--input`, checks them against those that its help lists and that its required options are given, and returns the `Cmd`; every builder also takes the general parameters of BEDTools, such as `--cram-ref`, which come before the subcommand.
