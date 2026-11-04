@@ -24,14 +24,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 1.12 is the oldest version that BEDTools.jl supports, which workspaces need, to resolve the package, tests and docs together.
+        # 1.12, the oldest version that BEDTools.jl supports, which workspaces need, to resolve the package, tests and docs together, and the latest release, each on Linux, macOS and Windows.
+        # It stands in for the long-term support release, lts, which is 1.10, older than BEDTools.jl supports, so lts would fail to resolve.
         julia-version: ['1.12', '1']
         # BEDTools_jll provides no `bedtools` for Windows, where the tests skip with a warning.
         os: [ubuntu-latest, macos-latest, windows-latest]
         experimental: [false]
         include:
-          # Nightly is experimental, so it may fail without failing CI.
-          - julia-version: nightly
+          # The prerelease of the next version, or the latest release where there's none, is experimental, so it may fail without failing CI.
+          - julia-version: pre
             os: ubuntu-latest
             experimental: true
     steps:
